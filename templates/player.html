@@ -1,0 +1,141 @@
+{%extends "layout.html" %}
+{% block content%} 
+    <div class="container mt-3">
+        <h1>Player Statistics for {{player.get_fullname()}}</h1>
+    </div>
+    <form method = "post" action="{{url_for('player')}}">
+        <div class="container">
+            <div class='row'>
+                <div class='col'>
+                    <select class="form-select" multiple size="3" name="year">
+                        {% for y in years %}>
+                            {% if y|string() in selectedyears%}
+                                <option selected value={{y}}>{{y}}</option>
+                            {%else%}           
+                                <option value={{y}}>{{y}}</option>
+                            {%endif%}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class='col'>
+                    <select class="form-select" name="player">
+                        {% for p in players %} 
+                            {% if p == player%}
+                                <option selected value={{p.get_id()}}>{{p.get_fullname()}}</option>
+                            {%else%}           
+                                <option value={{p.get_id()}}>{{p.get_fullname()}}</option>
+                            {%endif%}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class='col-auto'>
+                    <button type="submit" class="btn btn-primary float-end">Auswerten</button>
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </form>
+    <div class="container mt-3">
+        <div class='row'>
+            <p class="text-center font-weight-bold"> Within the {{years|length}} selected seasons {{player.get_firstname()}} played in {{games|length}} games while scoring {{goals|length}} goals and {{assists|length}} assists.
+            <br>{{player.get_firstname()}} was sent to the penalty box for a total of {{penaltymin}} minutes.
+            </p>
+        </div>
+        <div class="row">
+            <div class="col">
+                <canvas id="points"></canvas>
+            </div>
+            <div class="col">
+                <canvas id="penalties"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <canvas id=""></canvas>
+                </div>
+                <div class="row">
+                    <canvas id=""></canvas>
+                </div>
+                
+            </div>
+            <div class="col">
+                <canvas id=""></canvas>
+            </div>           
+        </div>        
+    </div>
+
+    <script>
+        new Chart(document.getElementById("points"), {
+            type: 'bar',
+            data: {
+                labels: [
+                    {% for item in times %}
+                        "{{ item }}",
+                    {% endfor %}
+                    ],
+                datasets: [{
+                    label: 'Goals',
+                    data: {{goals}},
+                    backgroundColor: 'rgba(0, 56, 255, 1)',
+                    order: 0
+                },{
+                    label: 'Assists',
+                    data: {{assists}},
+                    backgroundColor: 'rgba(200,0,0,0.8)',
+                    order: 1
+                }]         
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Points'
+                    },
+                },
+                responsive: true,
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+            
+        });
+    </script>
+
+<script>
+    new Chart(document.getElementById("penalties"), {
+        type: 'bar',
+        data: {
+            labels: [
+                {% for item in times %}
+                    "{{ item }}",
+                {% endfor %}
+                ],
+            datasets: [{
+                label: '# of Penalties',
+                data: {{penalties}},
+                backgroundColor: 'rgba(0, 56, 255, 1)',
+                order: 0
+            }]         
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Penalties'
+                },
+            },
+            responsive: true
+        }
+        
+    });
+</script>
+
+{% endblock content%}

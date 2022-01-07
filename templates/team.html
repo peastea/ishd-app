@@ -1,0 +1,290 @@
+{%extends "layout.html" %}
+{% block content%} 
+    <div class="container mt-3">
+        <h1>Team Statistics</h1>
+    </div>
+    <form method = "post" action="{{url_for('team')}}">
+        <div class="container">
+            <div class='row'>
+                <div class='col'>
+                    <select class="form-select" multiple size="3" name="year">
+                        {% for year in years %}>
+                            {% if year|string() in currentyears%}
+                                <option selected value={{year}}>{{year}}</option>
+                            {%else%}           
+                                <option value={{year}}>{{year}}</option>
+                            {%endif%}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class='col'>
+                    <select class="form-select" name="team">
+                        {% for team in teams %} 
+                            {% if team == currentteam%}
+                                <option selected value={{team.get_id()}}>{{team.get_name()}}</option>
+                            {%else%}           
+                                <option value={{team.get_id()}}>{{team.get_name()}}</option>
+                            {%endif%}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class='col-auto'>
+                    <button type="submit" class="btn btn-primary float-end">Auswerten</button>
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </form>   
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col">
+                <canvas id="goals"></canvas>
+            </div>
+            <div class="col">
+                <canvas id="penalties"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <canvas id="points"></canvas>
+                </div>
+                <div class="row">
+                    <canvas id="gamesplayed"></canvas>
+                </div>
+                
+            </div>
+            <div class="col">
+                <canvas id="pentype"></canvas>
+            </div>           
+        </div>
+        
+    </div>
+    
+   
+    
+    <script>
+        new Chart(document.getElementById("goals"), {
+            type: 'bar',
+            data: {
+                labels: [
+                    {% for item in times %}
+                        "{{ item }}",
+                    {% endfor %}
+                    ],
+                datasets: [{
+                    label: 'Goals for',
+                    data: {{goalsfor}},
+                    backgroundColor: 'rgba(0, 56, 255, 1)',
+                    order: 1
+                },{
+                    label: 'Goals against',
+                    data: {{goalsagainst}},
+                    backgroundColor: 'rgba(200,0,0,0.8)',
+                    order: 2
+                },
+                {
+                    label: 'Plus / Minus',
+                    data: [
+                        {% for g in goalsfor %}
+                            {{g + goalsagainst[loop.index0]}},
+                        {% endfor %}
+                        ],
+                    type: 'line',
+                    borderColor: 'rgba(0,0,0,1)',
+                    backgroundColor: 'rgba(0,0,0,1)',
+                    order: 0
+                }]         
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Goals'
+                    },
+                },
+                responsive: true,
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+            
+        });
+    </script>
+    
+    <script>
+        new Chart(document.getElementById("penalties"), {
+            type: 'bar',
+            data: {
+                labels: [
+                    {% for item in times %}
+                        "{{ item }}",
+                    {% endfor %}
+                    ],
+                datasets: [{
+                    label: 'Penalties taken',
+                    data: {{penaltiesby}},
+                    backgroundColor: 'rgba(0, 56, 255, 1)',
+                    order: 1
+                },{
+                    label: 'Penalties drawn',
+                    data: {{penaltiesdrawn}},
+                    backgroundColor: 'rgba(200,0,0,0.8)',
+                    order: 2
+                },
+                {
+                    label: 'Plus / Minus',
+                    data: [
+                        {% for p in penaltiesby %}
+                            {{p + penaltiesdrawn[loop.index0]}},
+                        {% endfor %}
+                        ],
+                    type: 'line',
+                    borderColor: 'rgba(0,0,0,1)',
+                    backgroundColor: 'rgba(0,0,0,1)',
+                    order: 0
+                }]         
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Minor Penalties'
+                    },
+                },
+                responsive: true,
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+            
+        });
+    </script>
+
+    <script>
+        new Chart(document.getElementById("points"), {
+            type: 'bar',
+            data: {
+                labels: [
+                    {% for item in pointsname %}
+                        "{{ item }}",
+                    {% endfor %}
+                    ],
+                datasets: [{
+                    label: 'Goals',
+                    data: {{playergoals}},
+                    backgroundColor: 'rgba(0, 56, 255, 1)',
+                    order: 1
+                },{
+                    label: 'Assists',
+                    data: {{playerassists}},
+                    backgroundColor: 'rgba(200,0,0,0.8)',
+                    order: 2
+                }]         
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Top 10 Scorer'
+                    },
+                },
+                responsive: true,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+            
+        });
+    </script>
+
+    <script>
+        new Chart(document.getElementById("gamesplayed"), {
+            type: 'bar',
+            data: {
+                labels: [
+                    {% for item in gpnames %}
+                        "{{ item }}",
+                    {% endfor %}
+                    ],
+                datasets: [{
+                    label: 'Games Played',
+                    data: {{gamesplayed}},
+                    backgroundColor: 'rgba(0, 56, 255, 1)',
+                    
+                }]         
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Games Played'
+                    },
+                },
+                responsive: true,
+                indexAxis: 'y',
+                
+            }
+            
+        });
+    </script>
+
+    <script>
+        amount = {{penaltynumber}}
+        colors = []
+        c = 1
+        for (i in amount){
+            r = 255 - c*20;
+            g = 0;
+            b = c*20;
+            c++;
+            colors.push('rgba('+r+','+g+','+b+',0.5');
+        }
+
+        new Chart(document.getElementById("pentype"), {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    {% for item in penaltynames %}
+                        "{{ item }}",
+                    {% endfor %}
+                    ],
+                datasets: [{
+                    data: {{penaltynumber}},
+                    backgroundColor: colors,
+                }]         
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Penalty Type'
+                    }
+                }
+            },
+        });
+    </script>
+{% endblock content%}
