@@ -2,10 +2,11 @@ from flask import Flask, render_template, url_for, request
 import sqlite3
 import helper 
 from collections import Counter
+import os
 
-
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__) 
-con = sqlite3.connect('DB/ishd-db.db')
+con = sqlite3.connect(os.path.join(THIS_FOLDER, 'DB/ishd-db.db'))
 cur = con.cursor()
 teams = helper.getallteams(cur)
 players = helper.getallplayers(cur, teams)
@@ -76,14 +77,17 @@ def player():
     players.sort(key=lambda x: x.get_fullname())
 
     games = [g for s in seasons for g in s.get_gamesbyplayer(selectedplayer) if str(s.get_year()) in selectedyears]
-    goals = helper.getamountperinterval([g.get_time() for s in seasons for g in s.get_goalsbyplayer(selectedplayer) if str(s.get_year()) in selectedyears])
-    assists = helper.getamountperinterval([a.get_time() for s in seasons for a in s.get_assistsbyplayer(selectedplayer) if str(s.get_year()) in selectedyears])
+    goals = [g for s in seasons for g in s.get_goalsbyplayer(selectedplayer) if str(s.get_year()) in selectedyears]
+    goalsinterval = helper.getamountperinterval([g.get_time() for g in goals])
+    assists = [a for s in seasons for a in s.get_assistsbyplayer(selectedplayer) if str(s.get_year()) in selectedyears]
+    assistsinterval = helper.getamountperinterval([a.get_time() for a in assists])
     penalties = [p for s in seasons for p in s.get_penaltybyplayer(selectedplayer) if str(s.get_year()) in selectedyears]
     penalties_plot = helper.getamountperinterval([p.get_time() for p in penalties])
     penaltymin = sum([p.get_penaltyminutes() for p in penalties])
 
     return render_template('player.html', players=players, years=years, player=selectedplayer, selectedyears=selectedyears, times=helper.intervallong,
-                            goals = goals, assists = assists, penalties=penalties_plot, games=games, penaltymin = penaltymin)
+                            goalsinterval=goalsinterval, assistsinterval=assistsinterval, goals=goals, assists=assists,
+                            penalties=penalties_plot, games=games, penaltymin = penaltymin)
 
 @app.route("/league", methods=['GET','POST'])
 def league():

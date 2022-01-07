@@ -39,7 +39,7 @@
     </form>
     <div class="container mt-3">
         <div class='row'>
-            <p class="text-center font-weight-bold"> Within the {{years|length}} selected seasons {{player.get_firstname()}} played in {{games|length}} games while scoring {{goals|length}} goals and {{assists|length}} assists.
+            <p class="text-center font-weight-bold"> Within the {{selectedyears|length}} selected seasons {{player.get_firstname()}} played in {{games|length}} games while scoring {{goals|length}} goals and {{assists|length}} assists.
             <br>{{player.get_firstname()}} was sent to the penalty box for a total of {{penaltymin}} minutes.
             </p>
         </div>
@@ -78,12 +78,12 @@
                     ],
                 datasets: [{
                     label: 'Goals',
-                    data: {{goals}},
+                    data: {{goalsinterval}},
                     backgroundColor: 'rgba(0, 56, 255, 1)',
                     order: 0
                 },{
                     label: 'Assists',
-                    data: {{assists}},
+                    data: {{assistsinterval}},
                     backgroundColor: 'rgba(200,0,0,0.8)',
                     order: 1
                 }]         
