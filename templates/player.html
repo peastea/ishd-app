@@ -4,7 +4,7 @@
         <h1>Player Statistics for {{player.get_fullname()}}</h1>
     </div>
     <form method = "post" action="{{url_for('player')}}">
-        <div class="container">
+        <div class="container filter">
             <div class='row'>
                 <div class='col'>
                     <select class="form-select" multiple size="3" name="year">
@@ -37,12 +37,34 @@
         </div>
         
     </form>
-    <div class="container mt-3">
-        <div class='row'>
-            <p class="text-center font-weight-bold"> Within the {{selectedyears|length}} selected seasons {{player.get_firstname()}} played in {{games|length}} games while scoring {{goals|length}} goals and {{assists|length}} assists.
-            <br>{{player.get_firstname()}} was sent to the penalty box for a total of {{penaltymin}} minutes.
-            </p>
-        </div>
+    <div class="container mt-5">
+    
+        <div class="row text-center">
+            <div class="col">
+                <div class="counter">
+                    <h2 class="count-title count-number">{{games|length}}</h2>
+                    <p class="count-text ">Games</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="counter">
+                    <h2 class="count-title count-number">{{goals|length}}</h2>
+                    <p class="count-text ">Goals</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="counter">
+                    <h2 class="count-title count-number">{{assists|length}}</h2>
+                    <p class="count-text ">Assists</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="counter">
+                    <h2 class="count-title count-number">{{penaltymin}}</h2>
+                    <p class="count-text ">Penalty Minutes</p>
+                </div>
+            </div>
+        </div>   
         <div class="row">
             <div class="col">
                 <canvas id="points"></canvas>
@@ -68,48 +90,48 @@
     </div>
 
     <script>
-        new Chart(document.getElementById("points"), {
-            type: 'bar',
-            data: {
-                labels: [
-                    {% for item in times %}
-                        "{{ item }}",
-                    {% endfor %}
-                    ],
-                datasets: [{
-                    label: 'Goals',
-                    data: {{goalsinterval}},
-                    backgroundColor: 'rgba(0, 56, 255, 1)',
-                    order: 0
-                },{
-                    label: 'Assists',
-                    data: {{assistsinterval}},
-                    backgroundColor: 'rgba(200,0,0,0.8)',
-                    order: 1
-                }]         
-            },
-            options: {
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Points'
-                    },
+    new Chart(document.getElementById("points"), {
+        type: 'bar',
+        data: {
+            labels: [
+                {% for item in times %}
+                    "{{ item }}",
+                {% endfor %}
+                ],
+            datasets: [{
+                label: 'Goals',
+                data: {{goalsinterval}},
+                backgroundColor: 'rgba(0, 56, 255, 1)',
+                order: 0
+            },{
+                label: 'Assists',
+                data: {{assistsinterval}},
+                backgroundColor: 'rgba(200,0,0,0.8)',
+                order: 1
+            }]         
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Points'
                 },
-                responsive: true,
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: {
-                        stacked: true
-                    }
+            },
+            responsive: true,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true
                 }
             }
-            
-        });
+        }
+        
+    });
     </script>
 
-<script>
+    <script>
     new Chart(document.getElementById("penalties"), {
         type: 'bar',
         data: {
@@ -136,6 +158,7 @@
         }
         
     });
-</script>
+    </script>
+
 
 {% endblock content%}
