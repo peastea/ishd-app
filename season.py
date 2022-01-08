@@ -22,6 +22,11 @@ class Season():
     
     def get_goalsagainstteam(self, team:Team) -> list[Goal]:
         return [goal for game in self.games for goal in game.get_goals() if (game.get_hometeam() == team or game.get_awayteam() == team) and goal.get_team() != team]
+    
+    def get_goals(self):
+        return [goal for game in self.games for goal in game.get_goals()]
+    
+
 
     def get_ppgbyplayer(self, player: Player) -> list[Goal]:
         return [goal for game in self.games for goal in game.get_powerplaygoals() if goal.get_player() == player]
@@ -44,6 +49,9 @@ class Season():
     def get_penaltyagainstteam(self, team: Team) -> list[Penalty]:
         return [p for game in self.games for p in game.get_penaltyagainstteam(team) if game.get_hometeam() == team or game.get_awayteam() == team]
 
+    def get_penalties(self) -> list[Penalty]:
+        return [p for g in self.games for p in g.get_penalties()]
+
     def get_year(self) -> int:
         return self.year
 
@@ -52,3 +60,14 @@ class Season():
 
     def get_gamesbyteam(self, team:Team) -> list[Game]:
         return [game for game in self.games if game.get_hometeam() == team or game.get_awayteam() == team] 
+
+    def get_players(self) -> list[Player]:
+        players = []
+        for game in self.games:
+            for player,*_ in game.get_lineuphome():
+                if player not in players:
+                    players.append(player)
+            for player,*_ in game.get_lineupaway():
+                if player not in players:
+                    players.append(player)
+        return players

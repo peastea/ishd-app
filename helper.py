@@ -5,6 +5,7 @@ from player import Player
 from season import Season
 from team import Team
 import itertools
+from collections import Counter
 
 intervallong = ['0-5','5-10','10-15', '15-20', '20-25','25-30','30-35','35-40','40-45','45-50','50-55','55-60']
 intervalshort = ['0','5','10', '15', '20','25','30','35','40','45','50','55']
@@ -141,3 +142,30 @@ def getgameobject_byid(id, games: list[Game]) -> Game:
         if game.get_id() == id:
             return game
     return None
+
+def gettopscorer(seasons:list[Season]) -> list[(Player, int)]:
+    goalscorer = []
+    for season in seasons:
+        goalscorer.extend([goal.get_player() for goal in season.get_goals()])
+    return Counter(goalscorer).most_common()
+
+def gettopassists(seasons:list[Season]) -> list[(Player, int)]:
+    assists = []
+    for season in seasons:
+        assists.extend([goal.get_assist() for goal in season.get_goals() if goal.get_assist() is not None])
+    return Counter(assists).most_common()
+
+def gettoppenalties(seasons:list[Season]) -> list[(Player, int)]:    
+    penminutes = {}
+    for season in seasons:
+        for player in season.get_players():
+            minutes = sum([p.get_penaltyminutes() for p in season.get_penaltybyplayer(player)])
+            if player in penminutes.keys():
+                penminutes[player] += minutes
+            else:
+                penminutes.update({player: minutes})
+
+    penalties = list(penminutes.items())
+    penalties.sort(key=lambda x: x[1], reverse=True)
+
+    return penalties

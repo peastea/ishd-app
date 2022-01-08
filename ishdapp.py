@@ -58,6 +58,7 @@ def team():
     gamesplayed = gamesplayed[:10]
 
     
+    
     return render_template('team.html', currentteam=team, currentyears=selectedyears, teams=teams, times=helper.intervallong, years = years,
                             goalsfor=goalsfor, goalsagainst=goalsagainst,
                             penaltiesby=penaltiesby, penaltiesdrawn=penaltiesdrawn,
@@ -70,24 +71,34 @@ def player():
     years=[season.get_year() for season in seasons]
     selectedyears = [str(season.get_year()) for season in seasons]  #default all season
     selectedplayer = helper.getplayerobject_byid(119, players) #default
+    selectedseasons = seasons
     if request.method == 'POST':
         selectedyears = request.form.getlist('year')
         selectedplayer = helper.getplayerobject_byid(int(request.form.get('player')),players)
+        selectedseasons = [s for s in seasons if str(s.get_year()) in selectedyears]
 
     players.sort(key=lambda x: x.get_fullname())
 
-    games = [g for s in seasons for g in s.get_gamesbyplayer(selectedplayer) if str(s.get_year()) in selectedyears]
-    goals = [g for s in seasons for g in s.get_goalsbyplayer(selectedplayer) if str(s.get_year()) in selectedyears]
+    games = [g for s in selectedseasons for g in s.get_gamesbyplayer(selectedplayer)]
+    goals = [g for s in selectedseasons for g in s.get_goalsbyplayer(selectedplayer)]
     goalsinterval = helper.getamountperinterval([g.get_time() for g in goals])
-    assists = [a for s in seasons for a in s.get_assistsbyplayer(selectedplayer) if str(s.get_year()) in selectedyears]
+    assists = [a for s in selectedseasons for a in s.get_assistsbyplayer(selectedplayer)]
     assistsinterval = helper.getamountperinterval([a.get_time() for a in assists])
-    penalties = [p for s in seasons for p in s.get_penaltybyplayer(selectedplayer) if str(s.get_year()) in selectedyears]
+    penalties = [p for s in selectedseasons for p in s.get_penaltybyplayer(selectedplayer)]
     penalties_plot = helper.getamountperinterval([p.get_time() for p in penalties])
     penaltymin = sum([p.get_penaltyminutes() for p in penalties])
 
+    scorer = helper.gettopscorer(selectedseasons)
+    goalpos = [p for p,_ in scorer].index(selectedplayer) + 1
+    ass =  helper.gettopassists(selectedseasons)
+    assistpos = [p for p,_ in ass].index(selectedplayer) + 1
+    pen = helper.gettoppenalties(selectedseasons)
+    penpos = [p for p,_ in pen].index(selectedplayer) +1
+
     return render_template('player.html', players=players, years=years, player=selectedplayer, selectedyears=selectedyears, times=helper.intervallong,
                             goalsinterval=goalsinterval, assistsinterval=assistsinterval, goals=goals, assists=assists,
-                            penalties=penalties_plot, games=games, penaltymin = penaltymin)
+                            penalties=penalties_plot, games=games, penaltymin = penaltymin, 
+                            goalpos=goalpos, assistpos= assistpos)
 
 @app.route("/league", methods=['GET','POST'])
 def league():
