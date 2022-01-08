@@ -1,66 +1,63 @@
 {%extends "layout.html" %}
-{% block content%} 
-    <div class="container mt-3">
-        <h1>Player Statistics for {{player.get_fullname()}}</h1>
-    </div>
+{% block filter%}           
     <form method = "post" action="{{url_for('player')}}">
-        <div class="container filter">
-            <div class='row'>
-                <div class='col'>
-                    <select class="form-select" multiple size="3" name="year">
-                        {% for y in years %}>
-                            {% if y|string() in selectedyears%}
-                                <option selected value={{y}}>{{y}}</option>
-                            {%else%}           
-                                <option value={{y}}>{{y}}</option>
-                            {%endif%}
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class='col'>
-                    <select class="form-select" name="player">
-                        {% for p in players %} 
-                            {% if p == player%}
-                                <option selected value={{p.get_id()}}>{{p.get_fullname()}}</option>
-                            {%else%}           
-                                <option value={{p.get_id()}}>{{p.get_fullname()}}</option>
-                            {%endif%}
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class='col-auto'>
-                    <button type="submit" class="btn btn-primary float-end">Auswerten</button>
-                </div>
-                
+        <div class='row'>
+            <div class='col'>
+                <select class="form-select" multiple size="3" name="year">
+                    {% for y in years %}>
+                        {% if y|string() in selectedyears%}
+                            <option selected value={{y}}>{{y}}</option>
+                        {%else%}           
+                            <option value={{y}}>{{y}}</option>
+                        {%endif%}
+                    {% endfor %}
+                </select>
             </div>
-            
+            <div class='col'>
+                <select class="form-select" name="player">
+                    {% for p in players %} 
+                        {% if p == player%}
+                            <option selected value={{p.get_id()}}>{{p.get_fullname()}}</option>
+                        {%else%}           
+                            <option value={{p.get_id()}}>{{p.get_fullname()}}</option>
+                        {%endif%}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class='col-auto'>
+                <button type="submit" class="btn btn-primary float-end">Auswerten</button>
+            </div>                        
+        </div>     
+    </form>                
+{% endblock filter%}     
+
+{% block content%}    
+    <div class="container">
+        <div class="container mt-4 mb-4">
+            <h4 class="text-center">{{player.get_fullname()}} - {{player.get_team().get_name()}} - {%for year in selectedyears%} {{year}} {%endfor%} </h3>
         </div>
-        
-    </form>
-    <div class="container mt-5">
-    
         <div class="row text-center">
             <div class="col">
                 <div class="counter">
-                    <h2 class="count-title count-number">{{games|length}}</h2>
+                    <h2 class="count-title">{{games|length}}</h2>
                     <p class="count-text ">Games</p>
                 </div>
             </div>
             <div class="col">
                 <div class="counter">
-                    <h2 class="count-title count-number">{{goals|length}}</h2>
+                    <h2 class="count-title">{{goals|length}}</h2>
                     <p class="count-text ">Goals</p>
                 </div>
             </div>
             <div class="col">
                 <div class="counter">
-                    <h2 class="count-title count-number">{{assists|length}}</h2>
+                    <h2 class="count-title">{{assists|length}}</h2>
                     <p class="count-text ">Assists</p>
                 </div>
             </div>
             <div class="col">
                 <div class="counter">
-                    <h2 class="count-title count-number">{{penaltymin}}</h2>
+                    <h2 class="count-title">{{penaltymin}}</h2>
                     <p class="count-text ">Penalty Minutes</p>
                 </div>
             </div>

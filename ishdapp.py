@@ -22,7 +22,7 @@ def home():
 @app.route("/team", methods=['GET', 'POST'])
 def team():
     years=[season.get_year() for season in seasons]
-    selectedyears =  str(years) #default
+    selectedyears = [str(season.get_year()) for season in seasons] #default
     selectedteam = 5 #default
 
     if request.method == 'POST':
