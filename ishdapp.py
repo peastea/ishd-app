@@ -98,7 +98,7 @@ def player():
     return render_template('player.html', players=players, years=years, player=selectedplayer, selectedyears=selectedyears, times=helper.intervallong,
                             goalsinterval=goalsinterval, assistsinterval=assistsinterval, goals=goals, assists=assists,
                             penalties=penalties_plot, games=games, penaltymin = penaltymin, 
-                            goalpos=goalpos, assistpos= assistpos)
+                            goalpos=goalpos, assistpos= assistpos, penpos = penpos)
 
 @app.route("/league", methods=['GET','POST'])
 def league():
