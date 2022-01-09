@@ -49,7 +49,9 @@
                         <div class="col-8">
                             <div class="card-body">
                                 <h5 class="card-title">{{games|length}} Games</h5>
+                                {% if gppos != None%}
                                 <p class="card-text">#{{gppos}} in league</p>
+                                {%endif%}
                             </div>
                         </div>
                     </div>
@@ -66,7 +68,9 @@
                         <div class="col-8">
                             <div class="card-body">
                                 <h5 class="card-title">{{goals|length}} Goals</h5>
+                                {% if goalpos != None%}
                                 <p class="card-text">#{{goalpos}} in league</p>
+                                {%endif%}
                             </div>
                         </div>
                     </div>
@@ -83,6 +87,9 @@
                         <div class="col-8">
                             <div class="card-body">
                                 <h5 class="card-title">{{gwg|length}} Game Winning Goals</h5>
+                                {% if gwgpos != None%}
+                                <p class="card-text">#{{gwgpos}} in league</p>
+                                {%endif%}
                             </div>
                         </div>
                     </div>
@@ -99,7 +106,9 @@
                         <div class="col-8">
                             <div class="card-body">
                                 <h5 class="card-title">{{assists|length}} Assists</h5>
+                                {% if assistpos != None%}
                                 <p class="card-text">#{{assistpos}} in league</p>
+                                {%endif%}
                             </div>
                         </div>
                     </div>
@@ -116,7 +125,9 @@
                         <div class="col-8">
                             <div class="card-body">
                                 <h5 class="card-title">{{penaltymin}} Penalty Minutes</h5>
+                                {% if penpos != None%}
                                 <p class="card-text">#{{penpos}} in league</p>
+                                {%endif%}
                             </div>
                         </div>
                     </div>

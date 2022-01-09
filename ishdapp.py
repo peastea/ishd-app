@@ -93,6 +93,8 @@ def player():
     gppos = helper.getoverallplace(selectedplayer, [p for p,_ in gamesplayed])
     scorer = helper.gettopscorer(selectedseasons)    
     goalpos = helper.getoverallplace(selectedplayer,[p for p,_ in scorer])
+    gwgscorer = helper.gettopgwg(selectedseasons)
+    gwgpos = helper.getoverallplace(selectedplayer,[p for p,_ in gwgscorer])
     ass =  helper.gettopassists(selectedseasons)
     assistpos = helper.getoverallplace(selectedplayer,[p for p,_ in ass])
     pen = helper.gettoppenalties(selectedseasons)
@@ -101,7 +103,7 @@ def player():
     return render_template('player.html', players=players, years=years, player=selectedplayer, selectedyears=selectedyears, times=helper.intervallong,
                             goalsinterval=goalsinterval, assistsinterval=assistsinterval, goals=goals, assists=assists,
                             penalties=penalties_plot, games=games, penaltymin = penaltymin, gwg=gwg, 
-                            goalpos=goalpos, assistpos= assistpos, penpos = penpos, gppos=gppos)
+                            goalpos=goalpos, assistpos= assistpos, penpos = penpos, gppos=gppos, gwgpos=gwgpos)
 
 @app.route("/league", methods=['GET','POST'])
 def league():

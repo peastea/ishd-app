@@ -180,7 +180,11 @@ def gettoppenalties(seasons:list[Season]) -> list[(Player, int)]:
     penalties.sort(key=lambda x: x[1], reverse=True)
     return penalties
 
+def gettopgwg(seasons:list[Season]) -> list[(Player, int)]:
+    gwgscorer = [goal.get_player() for s in seasons for goal in s.get_gamewinninggoals()]
+    return Counter(gwgscorer).most_common()
+
 def getoverallplace(player, listofplayer):
     if player in listofplayer:
         return listofplayer.index(player) + 1
-    return "n/a"
+    return None
