@@ -60,7 +60,9 @@ class Game():
         return False
 
     def get_goals(self) -> list[Goal]:
-        return self.goals
+        goals = [(getseconds(g.get_time()), g) for g in self.goals]
+        goals.sort(key=lambda x: x[0])
+        return [goal for _,goal in goals]
 
     ###### 
     # Goals
@@ -79,6 +81,12 @@ class Game():
 
     def get_powerplaygoals(self) -> list[Goal]:
         return [goal for goal in self.goals if goal.get_isppg()]
+
+    def get_gamewinninggoal(self) -> Goal:
+        numgoalslosing = len([g for g in self.goals if g.get_team() != self.winner])
+        goalswinning = [g for g in self.get_goals() if g.get_team() == self.winner]
+        test = goalswinning[numgoalslosing]
+        return test
 
     def __calcpowerplay(self) -> tuple[Goal,bool]:
         events = self.get_events()

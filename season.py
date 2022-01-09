@@ -26,6 +26,12 @@ class Season():
     
     def get_goals(self):
         return [goal for game in self.games for goal in game.get_goals()]
+    
+    def get_gamewinninggoals(self) -> list[Goal]:
+        return [game.get_gamewinninggoal() for game in self.games]
+    
+    def get_gwgbyplayer(self, player:Player) -> list[Goal]:
+        return [game.get_gamewinninggoal() for game in self.games if game.get_gamewinninggoal().get_player() == player]
 
     def get_ppgbyplayer(self, player: Player) -> list[Goal]:
         return [goal for game in self.games for goal in game.get_powerplaygoals() if goal.get_player() == player]

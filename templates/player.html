@@ -37,10 +37,10 @@
         <h4 class="text-center">{{player.get_fullname()}} - {{player.get_team().get_name()}} - {%for year in selectedyears%} {{year}} {%endfor%} </h3>
     </div>
     <div class="container">
-        <div class="row row-cols-xl-4 gx-5 ">
+        <div class="row row-cols-2 row-cols-xl-3 g-3 ">
             <div class="col">
                 <div class="card h-100">
-                    <div class="row g-0">
+                    <div class="row g-0 h-100">
                         <div class="col-4" text>
                             <div class="card-icon rounded-start">
                                 <i class="fas fa-skating fa-3x "></i>
@@ -57,7 +57,7 @@
             </div>
             <div class="col">
                 <div class="card h-100">
-                    <div class="row g-0">
+                    <div class="row g-0 h-100">
                         <div class="col-4 " text>
                             <div class="card-icon rounded-start">
                                 <i class="fas fa-bullseye fa-3x"></i>
@@ -74,7 +74,23 @@
             </div>
             <div class="col">
                 <div class="card h-100">
-                    <div class="row g-0">
+                    <div class="row g-0 h-100">
+                        <div class="col-4" text>
+                            <div class="card-icon rounded-start">
+                                <i class="fas fa-trophy fa-3x"></i>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{gwg|length}} Game Winning Goals</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="row g-0 h-100">
                         <div class="col-4 " text>
                             <div class="card-icon rounded-start">
                                 <i class="fas fa-hands-helping fa-3x"></i>
@@ -91,7 +107,7 @@
             </div>
             <div class="col">
                 <div class="card h-100">
-                    <div class="row g-0">
+                    <div class="row g-0 h-100">
                         <div class="col-4 " text>
                             <div class="card-icon rounded-start">
                                 <i class="fas fa-hand-peace fa-3x"></i>
