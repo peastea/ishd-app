@@ -143,6 +143,17 @@ def getgameobject_byid(id, games: list[Game]) -> Game:
             return game
     return None
 
+def gettopgamesplayed(seasons:list[Season]) -> list[(Player, int)]:
+    gamesplayed = {}
+    for season in seasons:
+        for player, games in season.get_playersgamesplayed():
+            if player in gamesplayed.keys():
+                gamesplayed[player] += games
+            else:
+                gamesplayed.update({player:games})    
+    gamesplayed = list(gamesplayed.items())
+    return sorted(gamesplayed, key=lambda x: x[1], reverse=True)
+
 def gettopscorer(seasons:list[Season]) -> list[(Player, int)]:
     goalscorer = []
     for season in seasons:
@@ -167,5 +178,9 @@ def gettoppenalties(seasons:list[Season]) -> list[(Player, int)]:
 
     penalties = list(penminutes.items())
     penalties.sort(key=lambda x: x[1], reverse=True)
-
     return penalties
+
+def getoverallplace(player, listofplayer):
+    if player in listofplayer:
+        return listofplayer.index(player) + 1
+    return "n/a"

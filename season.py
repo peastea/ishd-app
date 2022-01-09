@@ -1,3 +1,4 @@
+from collections import Counter
 from game import Game
 from player import Player
 from events import Goal, Penalty
@@ -25,8 +26,6 @@ class Season():
     
     def get_goals(self):
         return [goal for game in self.games for goal in game.get_goals()]
-    
-
 
     def get_ppgbyplayer(self, player: Player) -> list[Goal]:
         return [goal for game in self.games for goal in game.get_powerplaygoals() if goal.get_player() == player]
@@ -71,3 +70,13 @@ class Season():
                 if player not in players:
                     players.append(player)
         return players
+
+    def get_playersgamesplayed(self) -> list[(Player, int)]:
+        players = []
+        for game in self.games:
+            for player,*_ in game.get_lineuphome():
+                players.append(player)
+            for player,*_ in game.get_lineupaway():
+                players.append(player)
+        return Counter(players).most_common()
+ 
