@@ -39,24 +39,23 @@
         <div class="container mt-4 mb-4">
             <h4 class="text-center">{{currentteam.get_name()}} - Season: {%for year in currentyears%} {{year}} {%endfor%}</h3>
         </div>
-        <div class="row">
+        <div class="row row-cols-1 row-cols-lg-2">
             <div class="col">
                 <canvas id="goals"></canvas>
             </div>
+
             <div class="col">
                 <canvas id="penalties"></canvas>
             </div>
-        </div>
-        <div class="row">
+
             <div class="col">
-                <div class="row">
-                    <canvas id="points"></canvas>
-                </div>
-                <div class="row">
-                    <canvas id="gamesplayed"></canvas>
-                </div>
-                
+                <canvas id="points"></canvas>
             </div>
+
+            <div class="col">
+                <canvas id="gamesplayed"></canvas>
+            </div>            
+           
             <div class="col">
                 <canvas id="pentype"></canvas>
             </div>           
