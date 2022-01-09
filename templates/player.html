@@ -32,45 +32,84 @@
 {% endblock filter%}     
 
 {% block content%}    
+    
+    <div class="container py-3">
+        <h4 class="text-center">{{player.get_fullname()}} - {{player.get_team().get_name()}} - {%for year in selectedyears%} {{year}} {%endfor%} </h3>
+    </div>
     <div class="container">
-        <div class="container mt-4 mb-4">
-            <h4 class="text-center">{{player.get_fullname()}} - {{player.get_team().get_name()}} - {%for year in selectedyears%} {{year}} {%endfor%} </h3>
+        <div class="row row-cols-xl-4 gx-5 ">
+            <div class="col">
+                <div class="card h-100">
+                    <div class="row g-0">
+                        <div class="col-4" text>
+                            <div class="card-icon rounded-start">
+                                <i class="fas fa-skating fa-3x "></i>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{games|length}} Games</h5>
+                                <p class="card-text">#{{gppos}} in league</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="row g-0">
+                        <div class="col-4 " text>
+                            <div class="card-icon rounded-start">
+                                <i class="fas fa-bullseye fa-3x"></i>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{goals|length}} Goals</h5>
+                                <p class="card-text">#{{goalpos}} in league</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="row g-0">
+                        <div class="col-4 " text>
+                            <div class="card-icon rounded-start">
+                                <i class="fas fa-hands-helping fa-3x"></i>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{assists|length}} Assists</h5>
+                                <p class="card-text">#{{assistpos}} in league</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="row g-0">
+                        <div class="col-4 " text>
+                            <div class="card-icon rounded-start">
+                                <i class="fas fa-hand-peace fa-3x"></i>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{penaltymin}} Penalty Minutes</h5>
+                                <p class="card-text">#{{penpos}} in league</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="row text-center">
-            <div class="col">
-                <div class="counter">
-                    <h2 class="count-title">{{games|length}}</h2>
-                    <p class="count-text ">Games</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="counter">
-                    <h3 class="count-title">{{goals|length}}</h2>
-                    <p class="count-text ">Goals</p>
-                    <p class="count-text ">-</p>
-                    <h3 class="count-title ">#{{goalpos}}</h2>
-                    <p class="count-text ">in selected seasons</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="counter">
-                    <h2 class="count-title">{{assists|length}}</h2>
-                    <p class="count-text ">Assists</p>
-                    <p class="count-text ">-</p>
-                    <h3 class="count-title ">#{{assistpos}}</h2>
-                    <p class="count-text ">in selected seasons</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="counter">
-                    <h2 class="count-title">{{penaltymin}}</h2>
-                    <p class="count-text ">Penalty Minutes</p>
-                    <p class="count-text ">-</p>
-                    <h3 class="count-title ">#{{penpos}}</h2>
-                    <p class="count-text ">in selected seasons</p>
-                </div>
-            </div>
-        </div>   
+    </div>
+
+    <div class = "container">
         <div class="row">
             <div class="col">
                 <canvas id="points"></canvas>
