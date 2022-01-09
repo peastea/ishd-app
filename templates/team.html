@@ -67,6 +67,8 @@
    
     
     <script>
+        var setcolorprim = getComputedStyle(document.body).getPropertyValue('--primary-chart');
+        var setcolorsec = getComputedStyle(document.body).getPropertyValue('--secondary-chart');
         new Chart(document.getElementById("goals"), {
             type: 'bar',
             data: {
@@ -78,12 +80,12 @@
                 datasets: [{
                     label: 'Goals for',
                     data: {{goalsfor}},
-                    backgroundColor: 'rgba(0, 56, 255, 1)',
+                    backgroundColor: setcolorprim,
                     order: 1
                 },{
                     label: 'Goals against',
                     data: {{goalsagainst}},
-                    backgroundColor: 'rgba(200,0,0,0.8)',
+                    backgroundColor: setcolorsec,
                     order: 2
                 },
                 {
@@ -121,6 +123,8 @@
     </script>
     
     <script>
+        var setcolorprim = getComputedStyle(document.body).getPropertyValue('--primary-chart');
+        var setcolorsec = getComputedStyle(document.body).getPropertyValue('--secondary-chart');
         new Chart(document.getElementById("penalties"), {
             type: 'bar',
             data: {
@@ -132,12 +136,12 @@
                 datasets: [{
                     label: 'Penalties taken',
                     data: {{penaltiesby}},
-                    backgroundColor: 'rgba(0, 56, 255, 1)',
+                    backgroundColor: setcolorsec,
                     order: 1
                 },{
                     label: 'Penalties drawn',
                     data: {{penaltiesdrawn}},
-                    backgroundColor: 'rgba(200,0,0,0.8)',
+                    backgroundColor: setcolorprim,
                     order: 2
                 },
                 {
@@ -175,6 +179,8 @@
     </script>
 
     <script>
+        var setcolorprim = getComputedStyle(document.body).getPropertyValue('--primary-chart');
+        var setcolorsec = getComputedStyle(document.body).getPropertyValue('--secondary-chart');
         new Chart(document.getElementById("points"), {
             type: 'bar',
             data: {
@@ -186,12 +192,12 @@
                 datasets: [{
                     label: 'Goals',
                     data: {{playergoals}},
-                    backgroundColor: 'rgba(0, 56, 255, 1)',
+                    backgroundColor: setcolorprim,
                     order: 1
                 },{
                     label: 'Assists',
                     data: {{playerassists}},
-                    backgroundColor: 'rgba(200,0,0,0.8)',
+                    backgroundColor: setcolorsec,
                     order: 2
                 }]         
             },
@@ -218,6 +224,8 @@
     </script>
 
     <script>
+        var setcolorprim = getComputedStyle(document.body).getPropertyValue('--primary-chart');
+        var setcolorsec = getComputedStyle(document.body).getPropertyValue('--secondary-chart');
         new Chart(document.getElementById("gamesplayed"), {
             type: 'bar',
             data: {
@@ -229,7 +237,7 @@
                 datasets: [{
                     label: 'Games Played',
                     data: {{gamesplayed}},
-                    backgroundColor: 'rgba(0, 56, 255, 1)',
+                    backgroundColor: setcolorprim,
                     
                 }]         
             },
@@ -249,6 +257,8 @@
     </script>
 
     <script>
+        var setcolorprim = getComputedStyle(document.body).getPropertyValue('--primary-chart');
+        var setcolorsec = getComputedStyle(document.body).getPropertyValue('--secondary-chart');
         amount = {{penaltynumber}}
         colors = []
         c = 1
