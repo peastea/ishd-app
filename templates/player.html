@@ -136,7 +136,7 @@
         </div>
     </div>
 
-    <div class = "container">
+    <div class = "container mt-4">
         <div class="row">
             <div class="col">
                 <canvas id="points"></canvas>
@@ -145,23 +145,16 @@
                 <canvas id="penalties"></canvas>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <div class="row">
-                    <canvas id=""></canvas>
-                </div>
-                <div class="row">
-                    <canvas id=""></canvas>
-                </div>
-                
-            </div>
-            <div class="col">
-                <canvas id=""></canvas>
-            </div>           
+        <div class="row row-cols-1">
+            <div class="col">                
+                <canvas id="pointsingames"></canvas>
+            </div>         
         </div>        
     </div>
 
     <script>
+    var setcolorprim = getComputedStyle(document.body).getPropertyValue('--primary-chart');
+    var setcolorsec = getComputedStyle(document.body).getPropertyValue('--secondary-chart');
     new Chart(document.getElementById("points"), {
         type: 'bar',
         data: {
@@ -173,12 +166,12 @@
             datasets: [{
                 label: 'Goals',
                 data: {{goalsinterval}},
-                backgroundColor: 'rgba(0, 56, 255, 1)',
+                backgroundColor: setcolorprim,
                 order: 0
             },{
                 label: 'Assists',
                 data: {{assistsinterval}},
-                backgroundColor: 'rgba(200,0,0,0.8)',
+                backgroundColor: setcolorsec,
                 order: 1
             }]         
         },
@@ -204,6 +197,8 @@
     </script>
 
     <script>
+    var setcolorprim = getComputedStyle(document.body).getPropertyValue('--primary-chart');
+    var setcolorsec = getComputedStyle(document.body).getPropertyValue('--secondary-chart');
     new Chart(document.getElementById("penalties"), {
         type: 'bar',
         data: {
@@ -215,7 +210,7 @@
             datasets: [{
                 label: '# of Penalties',
                 data: {{penalties}},
-                backgroundColor: 'rgba(0, 56, 255, 1)',
+                backgroundColor: setcolorprim,
                 order: 0
             }]         
         },
@@ -224,6 +219,48 @@
                 title: {
                     display: true,
                     text: 'Penalties'
+                },
+            },
+            responsive: true
+        }
+        
+    });
+    </script>
+
+<script>
+    var setcolorprim = getComputedStyle(document.body).getPropertyValue('--primary-chart');
+    var setcolorsec = getComputedStyle(document.body).getPropertyValue('--secondary-chart');
+    new Chart(document.getElementById("pointsingames"), {
+        type: 'line',
+        data: {
+            labels: [
+                {% for item in games %}
+                    "{{ item.get_date().strftime("%d/%m/%y") }}",
+                {% endfor %}
+                ],
+            datasets: [{
+                label: '# of Points',
+                data: {{pointsingames}},
+                backgroundColor: setcolorprim,
+                bordercolor: setcolorprim,
+                
+            },{
+                label: '# of Penalties',
+                data: {{peningames}},
+                backgroundColor: setcolorsec,
+                bordercolor: setcolorsec,
+                fill: {
+                target: '-1',
+                above: setcolorsec,   // Area will be red above the origin
+                below: setcolorprim   // And blue below the origin
+              }
+            }]         
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Points vs Penalties over Games Played'
                 },
             },
             responsive: true

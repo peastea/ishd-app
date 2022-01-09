@@ -80,6 +80,9 @@ def player():
     players.sort(key=lambda x: x.get_fullname())
 
     games = [g for s in selectedseasons for g in s.get_gamesbyplayer(selectedplayer)]
+    games.sort(key=lambda x: x.get_date())
+    pointsingames = [game.get_pointsbyplayer(selectedplayer) for game in games]
+    peningames = [len(game.get_penaltybyplayer(selectedplayer)) for game in games]
     goals = [g for s in selectedseasons for g in s.get_goalsbyplayer(selectedplayer)]
     goalsinterval = helper.getamountperinterval([g.get_time() for g in goals])
     gwg = [g for s in selectedseasons for g in s.get_gwgbyplayer(selectedplayer)]
@@ -102,6 +105,7 @@ def player():
 
     return render_template('player.html', players=players, years=years, player=selectedplayer, selectedyears=selectedyears, times=helper.intervallong,
                             goalsinterval=goalsinterval, assistsinterval=assistsinterval, goals=goals, assists=assists,
+                            pointsingames=pointsingames, peningames=peningames,
                             penalties=penalties_plot, games=games, penaltymin = penaltymin, gwg=gwg, 
                             goalpos=goalpos, assistpos= assistpos, penpos = penpos, gppos=gppos, gwgpos=gwgpos)
 

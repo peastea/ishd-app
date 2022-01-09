@@ -1,6 +1,7 @@
 from events import Goal, Penalty
 from player import Player
 from collections import Counter
+from datetime import datetime
 
 from team import Team
 
@@ -63,6 +64,9 @@ class Game():
         goals = [(getseconds(g.get_time()), g) for g in self.goals]
         goals.sort(key=lambda x: x[0])
         return [goal for _,goal in goals]
+
+    def get_date(self) -> datetime:
+        return datetime.fromisoformat(self.date)
 
     ###### 
     # Goals
@@ -178,6 +182,9 @@ class Game():
     def get_pointsorted(self) -> list[tuple[Player, int]]:
         """Returns a sorted list with tuples (Player, #OfPoints)"""
         return Counter(self.get_pointlist()).most_common()
+
+    def get_pointsbyplayer(self, player:Player) -> int:
+        return len(self.get_goalsbyplayer(player)) + len(self.get_assistsbyplayer(player))
 
     ###### 
     # Penalties
