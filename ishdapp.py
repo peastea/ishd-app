@@ -91,17 +91,12 @@ def player():
     penalties = [p for s in selectedseasons for p in s.get_penaltybyplayer(selectedplayer)]
     penalties_plot = helper.getamountperinterval([p.get_time() for p in penalties])
     penaltymin = sum([p.get_penaltyminutes() for p in penalties])
-
-    gamesplayed = helper.gettopgamesplayed(selectedseasons)
-    gppos = helper.getoverallplace(selectedplayer, [p for p,_ in gamesplayed])
-    scorer = helper.gettopscorer(selectedseasons)    
-    goalpos = helper.getoverallplace(selectedplayer,[p for p,_ in scorer])
-    gwgscorer = helper.gettopgwg(selectedseasons)
-    gwgpos = helper.getoverallplace(selectedplayer,[p for p,_ in gwgscorer])
-    ass =  helper.gettopassists(selectedseasons)
-    assistpos = helper.getoverallplace(selectedplayer,[p for p,_ in ass])
-    pen = helper.gettoppenalties(selectedseasons)
-    penpos = helper.getoverallplace(selectedplayer,[p for p,_ in pen])
+    
+    gppos = helper.getoverallplace(selectedplayer, helper.gettopgamesplayed(selectedseasons))
+    goalpos = helper.getoverallplace(selectedplayer,helper.gettopscorer(selectedseasons) )
+    gwgpos = helper.getoverallplace(selectedplayer,helper.gettopgwg(selectedseasons))
+    assistpos = helper.getoverallplace(selectedplayer,helper.gettopassists(selectedseasons))
+    penpos = helper.getoverallplace(selectedplayer,helper.gettoppenalties(selectedseasons))
 
     return render_template('player.html', players=players, years=years, player=selectedplayer, selectedyears=selectedyears, times=helper.intervallong,
                             goalsinterval=goalsinterval, assistsinterval=assistsinterval, goals=goals, assists=assists,

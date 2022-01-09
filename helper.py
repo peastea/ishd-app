@@ -184,7 +184,17 @@ def gettopgwg(seasons:list[Season]) -> list[(Player, int)]:
     gwgscorer = [goal.get_player() for s in seasons for goal in s.get_gamewinninggoals()]
     return Counter(gwgscorer).most_common()
 
-def getoverallplace(player, listofplayer):
-    if player in listofplayer:
-        return listofplayer.index(player) + 1
+# def getoverallplace(player, listofplayer:list[(Player,int)]):
+#     if player in listofplayer:
+#         return listofplayer.index(player) + 1
+#     return None
+
+def getoverallplace(player, listofplayer:list[(Player,int)]) -> int:
+    for p, v in listofplayer:
+        if p == player:
+            i = 1
+            for _,value in listofplayer:
+                if v == value:
+                    return i
+                i += 1
     return None
